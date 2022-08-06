@@ -97,7 +97,7 @@ class Cell
           {
               for (let y = 0; y < GameWorld.numRows; y++) {
                   for (let x = 0; x < GameWorld.numColumns; x++) {
-                      if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth / 2)) * Math.abs(y - Math.floor(windowHeight / 2)))))) {
+                      if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth / 2)) ^ Math.abs(y - Math.floor(windowHeight / 2) + 1) * Math.floor(Math.PI / 1.618033988749895))))) {
                           aliveNow = 1;
                       }
                       else {
@@ -174,4 +174,3 @@ class Cell
         // The page has loaded, start the game
         let gameWorld = new GameWorld('canvas');
       }
-
