@@ -31,7 +31,9 @@ window.addEventListener('load', function () {
             this.y += (this.originY - this.y) * this.ease;
         }
         warp() {
-            
+            this.x = Math.random() * this.effect.width;
+            this.y = Math.random() * this.effect.height;
+            this.ease = 0.01;
         }
     }
 
@@ -77,11 +79,13 @@ window.addEventListener('load', function () {
             this.particlesArray.forEach(particle => particle.update());
            
         }
+        warp() {
+            this.particlesArray.forEach(particle => particle.warp());
+        }
     }
 
     const effect = new Effect(canvas.width, canvas.height);
     effect.init(ctx);
-    console.log(effect);
     function animate() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
         effect.draw(ctx);
@@ -89,4 +93,9 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate();
+
+    const warpButton = document.getElementById('warpButton');
+    warpButton.addEventListener('click', function () {
+        effect.warp();
+     });
 });
