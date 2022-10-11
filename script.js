@@ -19,6 +19,12 @@ window.addEventListener('load', function () {
             this.vx = 0;
             this.vy = 0;
             this.ease = 0.1;
+            this.dx = 0;
+            this.dy = 0;
+            this.drag = 0.8;
+            this.distance = 0;
+            this.force = 0;
+            this.angle = 0;
 
         }
         draw(context) {
@@ -27,13 +33,24 @@ window.addEventListener('load', function () {
         }
 
         update() {
-            this.x += (this.originX - this.x) * this.ease;
-            this.y += (this.originY - this.y) * this.ease;
+            this.dx = this.effect.mouse.x - this.x;
+            this.dy = this.effect.mouse.y - this.y;
+            this.distance = this.dx * this.dx + this.dy * this.dy;
+            this.force = -this.effect.mouse.radius / this.distance;
+
+            if (this.distance < this.effect.mouse.radius) {
+                this.angle = Math.atan2(this.dy, this.dx);
+                this.vx += this.force * Math.cos(this.angle);
+                this.vy += this.force * Math.sin(this.angle);
+            }
+
+            this.x += (this.vx *= this.drag) + (this.originX - this.x) * this.ease;
+            this.y += (this.vy *= this.drag) + (this.originY - this.y) * this.ease;
         }
         warp() {
             this.x = Math.random() * this.effect.width;
             this.y = Math.random() * this.effect.height;
-            this.ease = 0.01;
+            this.ease = 0.1;
         }
     }
 
@@ -43,15 +60,34 @@ window.addEventListener('load', function () {
             this.height = height;
             this.particlesArray = [];
             this.image = document.getElementById('image1');
+            this.scaleFactor = this.height * 0.002;
             this.centerX = this.width * 0.5;
             this.centerY = this.height * 0.5;
-            this.x = this.centerX - this.image.width * 0.5;
-            this.y = this.centerY - this.image.height * 0.5;
+            this.x = this.centerX - this.image.width * this.scaleFactor * 0.5;
+            this.y = this.centerY - this.image.height * this.scaleFactor * 0.5;
             this.gap = 3;
+            this.mouse = {
+                radius: this.width * 1.3,
+                x: undefined,
+                y: undefined
+            }
+            window.addEventListener('mousemove', event => { 
+                this.mouse.x = Math.floor(event.x);
+                this.mouse.y = Math.floor(event.y);
+            });
+            window.addEventListener('touchmove', event => {
+              /*  for (let i = 0; i < event.changedTouches.length; i++) {
+                    console.log(event.changedTouches.item(0));
+                }
+                */
+                
+                this.mouse.x = event.changedTouches.item(0).clientX;
+                this.mouse.y = event.changedTouches.item(0).clientY;
+            });
         }
 
         init(context) {
-            context.drawImage(this.image, this.x, this.y);
+            context.drawImage(this.image, this.x, this.y, this.image.naturalWidth * this.scaleFactor, this.image.naturalHeight * this.scaleFactor);
             const pixels = context.getImageData(0, 0, this.width, this.height).data;
             for (let y = 0; y < this.height; y += this.gap){
                 for (let x = 0; x < this.width; x += this.gap){

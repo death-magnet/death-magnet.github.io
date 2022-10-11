@@ -3,15 +3,30 @@
 	padding: 0;
 }
 
-#canvas1{
+#canvas1 {
 	position: absolute;
+	background: black;
 }
 
-.controls{
+.controls {
 	position: absolute;
 	z-index: 100;
 }
 
-img{
+img {
 	display:none;
+}
+
+button {
+	padding: 10px;
+	font-size: 30px;
+	margin: 20px;
+	color: black;
+	background: grey;
+	transition: 0.2s;
+}
+
+button:hover{
+	color:grey;
+	background: black;
 }
