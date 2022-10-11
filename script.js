@@ -60,12 +60,12 @@ window.addEventListener('load', function () {
             this.height = height;
             this.particlesArray = [];
             this.image = document.getElementById('image1');
-            this.scaleFactor = this.height * 0.002;
+            this.scaleFactor = this.height * 0.0015;
             this.centerX = this.width * 0.5;
             this.centerY = this.height * 0.5;
             this.x = this.centerX - this.image.width * this.scaleFactor * 0.5;
             this.y = this.centerY - this.image.height * this.scaleFactor * 0.5;
-            this.gap = 4;
+            this.gap = 5;
             this.mouse = {
                 radius: this.width * 1.3,
                 x: undefined,
