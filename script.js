@@ -1,9 +1,13 @@
 window.addEventListener('load', function () {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
+    
+    var oldcolor;
+    
     function randomNumber(min, max) { 
     return Math.random() * (max - min) + min;
     } 
@@ -15,6 +19,7 @@ window.addEventListener('load', function () {
             this.originX = Math.floor(x);
             this.originY = Math.floor(y);
             this.color = color;
+            this.oldcolor = oldcolor;
             this.size = this.effect.gap;
             this.vx = 0;
             this.vy = 0;
@@ -28,7 +33,10 @@ window.addEventListener('load', function () {
 
         }
         draw(context) {
-            context.fillStyle = this.color;
+            if (this.color != this.oldcolor)
+            {
+                context.fillStyle = this.color;
+            }
             context.fillRect(this.x, this.y, this.size, this.size);
         }
 
@@ -60,7 +68,7 @@ window.addEventListener('load', function () {
             this.height = height;
             this.particlesArray = [];
             this.image = document.getElementById('image1');
-            this.scaleFactor = this.height * 0.0015;
+            this.scaleFactor = this.height * 0.0014;
             this.centerX = this.width * 0.5;
             this.centerY = this.height * 0.5;
             this.x = this.centerX - this.image.width * this.scaleFactor * 0.5;
@@ -72,15 +80,10 @@ window.addEventListener('load', function () {
                 y: undefined
             }
             window.addEventListener('mousemove', event => { 
-                this.mouse.x = Math.floor(event.x);
-                this.mouse.y = Math.floor(event.y);
+                this.mouse.x = event.x;
+                this.mouse.y = event.y;
             });
             window.addEventListener('touchmove', event => {
-              /*  for (let i = 0; i < event.changedTouches.length; i++) {
-                    console.log(event.changedTouches.item(0));
-                }
-                */
-                
                 this.mouse.x = event.changedTouches.item(0).clientX;
                 this.mouse.y = event.changedTouches.item(0).clientY;
             });
@@ -99,7 +102,8 @@ window.addEventListener('load', function () {
                     const alpha = pixels[index + 3];
                     const color = 'rgb(' + red + ',' + green + ',' + blue + ')';
                     if (alpha > 0) {
-                        this.particlesArray.push(new Particle(this, x, y, color));    
+                        this.particlesArray.push(new Particle(this, x, y, color));
+                        oldcolor = color;
                     }
                 }
             }
@@ -129,6 +133,7 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate();
+    
 
     const warpButton = document.getElementById('warpButton');
     warpButton.addEventListener('click', function () {
