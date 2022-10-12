@@ -12,14 +12,18 @@ window.addEventListener('load', function () {
     var grayscale = (value << 16) | (value << 8) | value;
     var color = '#' + grayscale.toString(16);
     ctx.strokeStyle = color;
-    ctx.lineWidth = '16';
-    ctx.lineCap = 'round';
+    ctx.lineWidth = randomNumber(8, 20);
+    ctx.lineCap = randomNumber(0, 1) ? 'round' : 'square';
+    ctx.shadowColor = 'rgba(0,0,0,0.7)';
+    ctx.shadowOffsetX = 10;
+    ctx.shadowOffsetY = 5;
+    ctx.shadowBlur = 10;
 
-    let size = canvas.height * 0.27;
-    let sides = randomNumber(3, 11);
-    let maxLevel = randomNumber(2, 4);
-    let scale = 0.4;
-    let spread = randomNumber(0.4, 1.3);
+    let size = canvas.width < canvas.height ? canvas.width * 0.24 : canvas.height * 0.24;
+    let sides = Math.round(randomNumber(3, 9));
+    let maxLevel = Math.round(randomNumber(2, 4));
+    let scale = randomNumber(0.3, 0.6);
+    let spread = randomNumber(0.4, 1.2);
     let branches = randomNumber(1, 4);
    
 
@@ -34,14 +38,14 @@ window.addEventListener('load', function () {
         for (let i = 0; i < branches; i++)
         {
             ctx.save();
-            ctx.translate(size - (size / branches) * i, 0);
+            ctx.translate(size - (size / branches) * i + 1, 0);
             ctx.rotate(spread);
             ctx.scale(scale, scale);
             drawBranch(level + 1);
             ctx.restore();
 
             ctx.save();
-            ctx.translate(size - (size / branches) * i, 0);
+            ctx.translate(size - (size / branches) * i + 1, 0);
             ctx.rotate(-spread);
             ctx.scale(scale, scale);
             drawBranch(level + 1);
@@ -53,8 +57,6 @@ window.addEventListener('load', function () {
     { 
         ctx.save();
         ctx.translate(canvas.width * 0.5, canvas.height * 0.5);
-        ctx.scale(1, 1);
-        ctx.rotate(0);
         for (let i = 0; i < sides; i++)
         {
             ctx.rotate((Math.PI * 2) / sides);
