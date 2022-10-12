@@ -125,6 +125,7 @@ window.addEventListener('load', function () {
         label_branches.innerText = 'Branches: ' + branches;
         label_sides.innerText = 'Sides: ' + sides;
         label_lineWidth.innerText = 'Width: ' + ctx.lineWidth;
+        label_lineScale.innerText = 'Scale: ' + Number(scale).toFixed(2);
     }
     function randomizeFractal()
     {
