@@ -12,7 +12,7 @@ window.addEventListener('load', function () {
     var grayscale = (value << 16) | (value << 8) | value;
     var color = '#' + grayscale.toString(16);
     ctx.strokeStyle = color;
-    ctx.lineWidth = Math.round(randomNumber(4, 12));
+    ctx.lineWidth = Math.round(randomNumber(4, 16));
     ctx.lineCap = randomNumber(0, 1) ? 'round' : 'square';
     ctx.shadowColor = 'rgba(0,0,0,0.7)';
     ctx.shadowOffsetX = 10;
@@ -23,9 +23,57 @@ window.addEventListener('load', function () {
     let sides = Math.round(randomNumber(3, 9));
     let maxLevel = Math.round(randomNumber(2, 4));
     let scale = randomNumber(0.3, 0.6);
-    let spread = randomNumber(0.4, 1.2);
-    let branches = randomNumber(1, 4);
-   
+    let spread = randomNumber(0.4, 2.5);
+    let branches = Math.floor(randomNumber(1, 4));
+    //controls
+    const reloadButton = document.getElementById('reloadButton');
+    const slider_spread = document.getElementById('spread');
+    const label_spread = document.querySelector('[for="spread"]');
+    const slider_sides = document.getElementById('sides');
+    const label_sides = document.querySelector('[for="sides"]');
+    const slider_branches = document.getElementById('branches');
+    const label_branches = document.querySelector('[for="branches"]');
+    const slider_lineWidth = document.getElementById('lineWidth');
+    const label_lineWidth = document.querySelector('[for="lineWidth"]');
+    const slider_lineScale = document.getElementById('lineScale');
+    const label_lineScale = document.querySelector('[for="lineScale"]');
+
+
+    slider_spread.addEventListener('change', function (e)
+    { 
+        spread = e.target.value;
+        drawFractal();
+
+        updateSliders();
+    });
+    slider_sides.addEventListener('change', function (r)
+    { 
+        sides = r.target.value;
+        drawFractal();
+
+        updateSliders();
+    });
+    slider_branches.addEventListener('change', function (q)
+    { 
+        branches = q.target.value;
+        drawFractal();
+
+        updateSliders();
+    });
+    slider_lineWidth.addEventListener('change', function (t)
+    { 
+        ctx.lineWidth = t.target.value;
+        drawFractal();
+
+        updateSliders();
+    });
+    slider_lineScale.addEventListener('change', function (h)
+    { 
+        scale = h.target.value;
+        drawFractal();
+
+        updateSliders();
+    });
 
     function drawBranch(level)
     {
@@ -38,14 +86,14 @@ window.addEventListener('load', function () {
         for (let i = 0; i < branches; i++)
         {
             ctx.save();
-            ctx.translate(size - (size / branches) * i + 1, 0);
+            ctx.translate(size - (size / branches) * i - branches, 0);
             ctx.rotate(spread);
             ctx.scale(scale, scale);
             drawBranch(level + 1);
             ctx.restore();
 
             ctx.save();
-            ctx.translate(size - (size / branches) * i + 1, 0);
+            ctx.translate(size - (size / branches) * i - branches, 0);
             ctx.rotate(-spread);
             ctx.scale(scale, scale);
             drawBranch(level + 1);
@@ -66,8 +114,18 @@ window.addEventListener('load', function () {
         }
         ctx.restore();
     }
-    drawFractal();
-
+    function updateSliders()
+    { 
+        slider_spread.value = spread;
+        slider_branches.value = branches;
+        slider_sides.value = sides;
+        slider_lineWidth.value = ctx.lineWidth;
+        slider_lineScale.value = scale;
+        label_spread.innerText = 'Spread: ' + Number(spread).toFixed(1);
+        label_branches.innerText = 'Branches: ' + branches;
+        label_sides.innerText = 'Sides: ' + sides;
+        label_lineWidth.innerText = 'Width: ' + ctx.lineWidth;
+    }
     function randomizeFractal()
     {
         size = canvas.width < canvas.height ? canvas.width * 0.24 : canvas.height * 0.24;
@@ -75,11 +133,17 @@ window.addEventListener('load', function () {
         maxLevel = Math.round(randomNumber(2, 4));
         scale = randomNumber(0.3, 0.6);
         spread = randomNumber(0.4, 1.2);
-        branches = randomNumber(1, 4);
+        branches = Math.floor(randomNumber(1, 4));
+        ctx.lineWidth = Math.round(randomNumber(4, 16));
+        ctx.lineCap = randomNumber(0, 1) ? 'round' : 'square';
     }
     reloadButton.addEventListener('click', function ()
     { 
         randomizeFractal();
         drawFractal();
+        updateSliders();
     });
+
+    drawFractal();
+    updateSliders();
 });
