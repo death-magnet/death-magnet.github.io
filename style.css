@@ -30,3 +30,8 @@ button:hover{
 	color:grey;
 	background: black;
 }
+
+label, input{
+	color: white;
+	font-size: 20px;
+}
