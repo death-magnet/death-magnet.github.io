@@ -41,7 +41,7 @@ window.addEventListener('load', function () {
             this.x += this.speedX;// * dt * target_fps * 0.0005
             this.y += this.gravitySpeed * 0.35; //* dt * target_fps * 0.0005;
             if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(-0.01);
+                this.accelerate(-0.06);
                 if (this.gravity < 0)
                     this.radius = Math.random() * 70 + 20;
             }
