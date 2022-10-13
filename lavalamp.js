@@ -53,7 +53,7 @@ window.addEventListener('load', function () {
             if (this.gravitySpeed < -this.radius * this.offset)
                 this.gravitySpeed = -this.radius * this.offset;
             console.log("Speed: " + this.speedY + " Gravity: " + this.gravitySpeed.toFixed(4) + " Y pos: " + this.y.toFixed(2) + " Window height " + this.effect.height + " Radius: " + this.radius.toFixed(2));
-            if (this.y < this.effect.height * 0.7 && this.y > this.effect.height * 0.3 && this.gravitySpeed < 0)
+            if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed < 0)
                 this.gravitySpeed = -this.radius * 0.1;
 
         }
