@@ -15,7 +15,7 @@ window.addEventListener('load', function () {
             this.effect = effect;
             this.x = this.effect.width * 0.5;
             this.y = this.effect.height * 0.5;
-            this.radius = Math.random() * 70 + 20;
+            this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             this.speedX = Math.random() * 2 - 1;
             this.speedY = 0.1;
             this.gravity = 0.05;
@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
             if (this.y - this.radius > this.effect.height - this.radius) {
                 this.accelerate(-0.06);
                 if (this.gravity < 0)
-                    this.radius = Math.random() * 70 + 20;
+                    this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
             if (this.y < this.radius) {
                 this.accelerate(0.001);
