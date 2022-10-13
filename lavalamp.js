@@ -5,6 +5,9 @@ window.addEventListener('load', function () {
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'teal';
     const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.5 : canvas.height * 0.5);
+    function randomNumber(min, max) { 
+    return Math.random() * (max - min) + min;
+    } 
     class Ball {
         //ball stuff
         constructor(effect) {
@@ -20,7 +23,7 @@ window.addEventListener('load', function () {
         }
         
         accelerate(newSpeed) {
-            this.gravity += newSpeed * 0.1;
+            this.gravity += newSpeed * 0.01;
         }
 
         update() {
@@ -35,7 +38,7 @@ window.addEventListener('load', function () {
             this.x += this.speedX;
             this.y += this.gravitySpeed * 0.35
             if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(-0.02);
+                this.accelerate(randomNumber(-0.005, -0.05)) ;
                 if (this.gravity < 0)
                     this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
