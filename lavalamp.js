@@ -56,9 +56,11 @@ class Ball
     
     draw(context)
     {
+        context.save();
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         context.fill();
+        context.restore();
     }
 }
 
@@ -84,18 +86,17 @@ class MetaballsEffect
     
     update(dt)
     {
-        nowish = performance.now();
-        dt = nowish - lastTick;
         //update stuff
         this.metaballsArray.forEach(metaball => metaball.update(dt));
 
-        lastTick = nowish;
     }
     
     draw(context)
     {
         //draw stuff
+        context.save();
         this.metaballsArray.forEach(metaball => metaball.draw(context));
+        context.restore();
     }
 
 }
@@ -107,9 +108,14 @@ effect.init(numBlobs);
 function animate()
 {
     //animate stuff
+    ctx.save();
+    nowish = performance.now();
+    dt = nowish - lastTick;
+    lastTick = nowish;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    effect.update();
+    effect.update(dt);
     effect.draw(ctx);
+    ctx.restore();
     
     window.requestAnimationFrame(animate);
 }
