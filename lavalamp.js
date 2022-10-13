@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'teal';
-    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.5 : canvas.height * 0.5);
+    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.2 : canvas.height * 0.2);
     function randomNumber(min, max) { 
     return Math.random() * (max - min) + min;
     } 
@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
         }
         
         accelerate(newSpeed) {
-            this.gravity += newSpeed * 0.01;
+            this.gravity += newSpeed * 0.005;
         }
 
         update() {
@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
                     this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
             if (this.y < this.radius) {
-                this.accelerate(randomNumber(0.001, 0.1));
+                this.accelerate(randomNumber(0.000001, 0.1));
             }
             if (this.gravitySpeed > this.radius * this.offset)
                 this.gravitySpeed = this.radius * this.offset;
