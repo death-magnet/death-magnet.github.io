@@ -4,6 +4,10 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 ctx.fillStyle = 'teal';
 const numBlobs = Math.floor(canvas.width * 0.2);
+var dt;
+var target_fps = 60;
+let lastTick = performance.now();
+var nowish;
 class Ball
 {
     //ball stuff
@@ -24,7 +28,7 @@ class Ball
        
         this.gravity = newSpeed;
     }
-    update() {
+    update(dt) {
 
 
         if (this.x < this.radius || this.x > this.effect.width - this.radius) this.speedX *= -1;
@@ -35,18 +39,19 @@ class Ball
             this.y = this.radius;
 
         this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
+        this.x += this.speedX * dt * target_fps * 0.0005
+        this.y += this.speedY + this.gravitySpeed * dt * target_fps * 0.0005;
         if (this.y - this.radius > this.effect.height - this.radius)
         {
-            this.accelerate(-0.005);
+            this.accelerate(-0.01);
             if(this.gravity < 0)
                 this.radius = Math.random() * 50 + 20;
         }
         if (this.y < this.radius)
         {
-            this.accelerate(0.003);
+            this.accelerate(0.008);
         }
+        //console.log("Speed: "+ this.speedY + " Gravity: " + this.gravitySpeed.toFixed(4) + " Y pos: " + this.y.toFixed(2) + " Window height " + this.effect.height + " Radius: " + this.radius.toFixed(2));
     }
     
     draw(context)
@@ -77,10 +82,14 @@ class MetaballsEffect
         }
     }    
     
-    update()
+    update(dt)
     {
+        nowish = performance.now();
+        dt = nowish - lastTick;
         //update stuff
-        this.metaballsArray.forEach( metaball => metaball.update());
+        this.metaballsArray.forEach(metaball => metaball.update(dt));
+
+        lastTick = nowish;
     }
     
     draw(context)
@@ -101,7 +110,8 @@ function animate()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     effect.update();
     effect.draw(ctx);
-    requestAnimationFrame(animate);
+    
+    window.requestAnimationFrame(animate);
 }
 
 animate();
