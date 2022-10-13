@@ -38,7 +38,7 @@ window.addEventListener('load', function () {
             this.x += this.speedX;
             this.y += this.gravitySpeed * 0.35
             if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(randomNumber(-0.005, -0.05)) ;
+                this.accelerate(randomNumber(-0.0001, -0.01)) ;
                 if (this.gravity < 0)
                     this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
