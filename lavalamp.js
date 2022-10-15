@@ -38,12 +38,12 @@ window.addEventListener('load', function () {
             this.x += this.speedX;
             this.y += this.gravitySpeed * 0.35
             if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(randomNumber(-0.000001, -0.1)) ;
+                this.accelerate(randomNumber(-0.000001, -0.04)) ;
                 if (this.gravity < 0)
                     this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
             if (this.y < this.radius) {
-                this.accelerate(randomNumber(0.000001, 0.1));
+                this.accelerate(randomNumber(0.0001, 0.02));
             }
             if (this.gravitySpeed > this.radius * this.offset)
                 this.gravitySpeed = this.radius * this.offset;
