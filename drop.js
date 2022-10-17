@@ -41,6 +41,6 @@ window.addEventListener('load', function () {
   });
 
   canvas.addEventListener('touchmove', draw);
-  canvas.addEventListener('touchstop', () => isDrawing = false);
+  canvas.addEventListener('touchend', () => isDrawing = false);
     
 });
