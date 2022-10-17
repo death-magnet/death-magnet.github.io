@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
     const canvas = document.getElementById('canvas1');
-    const ctx = canvas.getContext('2d',  { alpha: false });
+    const ctx = canvas.getContext('2d', { alpha: false });
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     function randomNumber(min, max) { 
@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
 
     let size = canvas.width < canvas.height ? canvas.width * 0.24 : canvas.height * 0.24;
     let sides = Math.round(randomNumber(3, 9));
-    let maxLevel = Math.round(randomNumber(2, 4));
+    let maxLevel = Math.round(randomNumber(2, 5));
     let scale = randomNumber(0.3, 0.6);
     let spread = randomNumber(0.4, 2.5);
     let branches = Math.floor(randomNumber(1, 4));
@@ -93,7 +93,7 @@ window.addEventListener('load', function () {
             ctx.restore();
 
             ctx.save();
-            ctx.translate(size - (size / branches) * i - branches, 0);
+            ctx.translate(size  - (size / branches) * i - branches, 0);
             ctx.rotate(-spread);
             ctx.scale(scale, scale);
             drawBranch(level + 1);

@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'teal';
-    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.2 : canvas.height * 0.2);
+    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.13 : canvas.height * 0.13);
     function randomNumber(min, max) { 
     return Math.random() * (max - min) + min;
     } 
@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
         }
         
         accelerate(newSpeed) {
-            this.gravity += newSpeed * 0.005;
+            this.gravity += newSpeed;
         }
 
         update() {
@@ -36,20 +36,19 @@ window.addEventListener('load', function () {
 
             this.gravitySpeed += this.speedY + this.gravity;
             this.x += this.speedX;
-            this.y += this.gravitySpeed * 0.35
+            this.y += this.gravitySpeed * 0.35;
             if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(randomNumber(-0.000001, -0.04)) ;
+                this.accelerate(randomNumber(-0.0001, -0.04)) ;
                 if (this.gravity < 0)
                     this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
             }
             if (this.y < this.radius) {
-                this.accelerate(randomNumber(0.0001, 0.02));
+                this.accelerate(randomNumber(0.000001, 0.02));
             }
             if (this.gravitySpeed > this.radius * this.offset)
                 this.gravitySpeed = this.radius * this.offset;
             if (this.gravitySpeed < -this.radius * this.offset)
                 this.gravitySpeed = -this.radius * this.offset;
-            //console.log("Speed: " + this.speedY + " Gravity: " + this.gravitySpeed.toFixed(4) + " Y pos: " + this.y.toFixed(2) + " Window height " + this.effect.height + " Radius: " + this.radius.toFixed(2));
             if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed < 0)
                 this.gravitySpeed = -this.radius * 0.1;
         }
@@ -62,7 +61,6 @@ window.addEventListener('load', function () {
     }
 
     class MetaballsEffect {
-        //effect stuff
         constructor(width, height) {
             this.width = width;
             this.height = height;
@@ -70,19 +68,16 @@ window.addEventListener('load', function () {
         }
         
         init(numberOfBalls) {
-            // init stuff
             for (let i = 0; i < numberOfBalls; i++) {
                 this.metaballsArray.push(new Ball(this));
             }
         }
         
         update() {
-            //update stuff
             this.metaballsArray.forEach(metaball => metaball.update());
         }
         
         draw(context) {
-            //draw stuff
             this.metaballsArray.forEach(metaball => metaball.draw(context));
         }
     }
@@ -91,7 +86,6 @@ window.addEventListener('load', function () {
     effect.init(numBlobs);
 
     function animate() {
-        //animate stuff
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         effect.update();
         effect.draw(ctx);
