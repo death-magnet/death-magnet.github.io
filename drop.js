@@ -16,14 +16,20 @@ window.addEventListener('load', function () {
 
   function draw(e) {
     // stop the function if they are not mouse down
-    if(!isDrawing) return;
+    if (!isDrawing) return;
     //listen for mouse move event
-    console.log(e);
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
-    ctx.lineTo(e.offsetX, e.offsetY);
-    ctx.stroke();
-    [lastX, lastY] = [e.offsetX, e.offsetY];
+    console.log(e);
+    if (e.offsetX == undefined) {
+      ctx.lineTo(e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY);
+      ctx.stroke();[lastX, lastY] = [e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY];
+    }
+    else {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
   }
 
   canvas.addEventListener('mousedown', (e) => {
@@ -34,10 +40,10 @@ window.addEventListener('load', function () {
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', () => isDrawing = false);
   canvas.addEventListener('mouseout', () => isDrawing = false);
-  
   canvas.addEventListener('touchstart', (e) => {
     isDrawing = true;
-    [lastX, lastY] = [e.offsetX, e.offsetY];
+    [lastX, lastY] = [e.changedTouches[e.changedTouches.length-1].pageX, e.changedTouches[e.changedTouches.length-1].pageY,];
+    console.log("X: " + lastX + " Y: " + lastY);
   });
 
   canvas.addEventListener('touchmove', draw);
