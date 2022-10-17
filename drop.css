@@ -1,0 +1,37 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+#canvas1 {
+	position: absolute;
+	background: black;
+}
+
+.controls {
+	position: absolute;
+	z-index: 100;
+}
+
+img {
+	display:none;
+}
+
+button {
+	padding: 10px;
+	font-size: 30px;
+	margin: 20px;
+	color: black;
+	background: grey;
+	transition: 0.2s;
+}
+
+button:hover{
+	color:grey;
+	background: black;
+}
+
+label, input{
+	color: white;
+	font-size: 20px;
+}
