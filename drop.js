@@ -42,5 +42,6 @@ window.addEventListener('load', function () {
 
   canvas.addEventListener('touchmove', draw);
   canvas.addEventListener('touchend', () => isDrawing = false);
+  canvas.addEventListener('touchleave', () => isDrawing = false);
     
 });
