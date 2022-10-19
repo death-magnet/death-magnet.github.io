@@ -77,7 +77,7 @@ class Cell
           {
               for (let y = 0; y < GameWorld.numRows; y++) {
                   for (let x = 0; x < GameWorld.numColumns; x++) {
-                      if (Math.floor(Math.random() * 2)) {
+                      if (Math.floor(Math.random() > 0.4)) {
                           aliveNow = 1;
                       }
                       else {
@@ -110,11 +110,10 @@ class Cell
                       // Count the nearby population
                       let numAlive = this.isAlive(x - 1, y - 1) + this.isAlive(x, y - 1) + this.isAlive(x + 1, y - 1) + this.isAlive(x - 1, y) + this.isAlive(x + 1, y) + this.isAlive(x - 1, y + 1) + this.isAlive(x, y + 1) + this.isAlive(x + 1, y + 1);
                       let centerIndex = this.gridToIndex(x, y);
-
-                      if (numAlive == 2){
+                      if (numAlive === 2){
                           // Do nothing
                           this.gameObjects[centerIndex].nextAlive = this.gameObjects[centerIndex].alive;
-                      }else if (numAlive == 3){
+                      }else if (numAlive === 3){
                           // Make alive
                           this.gameObjects[centerIndex].nextAlive = true;
                       }else{
