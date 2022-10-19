@@ -77,7 +77,7 @@ class Cell
           {
               for (let y = 0; y < GameWorld.numRows; y++) {
                   for (let x = 0; x < GameWorld.numColumns; x++) {
-                      if (Math.floor(Math.random() > 0.4)) {
+                      if (Math.floor(Math.random() > 0.42)) {
                           aliveNow = 1;
                       }
                       else {
