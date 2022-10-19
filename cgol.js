@@ -139,7 +139,7 @@ class Cell
               // The loop function has reached it's end, keep requesting new frames
             setTimeout(() => {
               window.requestAnimationFrame(() => this.gameLoop());
-            }, 44);
+            }, 87);
           }
       }
 
