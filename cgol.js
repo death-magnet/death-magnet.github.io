@@ -28,8 +28,8 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d', { alpha: false })
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const windowWidth = Math.floor(canvas.width * 0.09);
-const windowHeight = Math.floor(canvas.height * 0.09);
+const windowWidth = Math.floor(canvas.width * 0.1);
+const windowHeight = Math.floor(canvas.height * 0.1);
 
 const cellWidth = canvas.width / windowWidth; 
 const cellHeight = cellWidth;
