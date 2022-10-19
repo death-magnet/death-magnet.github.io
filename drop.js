@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
-    const canvas = document.getElementById('canvas1');
-    const ctx = canvas.getContext('2d');
+  const canvas = document.getElementById('canvas1');
+  const ctx = canvas.getContext('2d');
   // could be 3d, if you want to make a video game
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -43,7 +43,6 @@ window.addEventListener('load', function () {
   canvas.addEventListener('touchstart', (e) => {
     isDrawing = true;
     [lastX, lastY] = [e.changedTouches[e.changedTouches.length-1].pageX, e.changedTouches[e.changedTouches.length-1].pageY,];
-    console.log("X: " + lastX + " Y: " + lastY);
   });
 
   canvas.addEventListener('touchmove', draw);
