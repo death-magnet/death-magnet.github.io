@@ -83,7 +83,7 @@ window.addEventListener('load', function () {
             this.centerY = this.height * 0.5;
             this.x = this.centerX - this.image.width * this.scaleFactor * 0.5;
             this.y = this.centerY - this.image.height * this.scaleFactor * 0.5;
-            this.gap = 4;
+            this.gap = 3;
             this.mouse = {
                 radius: this.width * 3,
                 x: undefined,
@@ -145,7 +145,11 @@ window.addEventListener('load', function () {
         previous_time = time;
         effect.draw(ctx);
         effect.update();
-        requestAnimationFrame(animate);
+        setTimeout(() =>
+        {
+            window.requestAnimationFrame(animate);
+        }, 16.66666666667);
+        //requestAnimationFrame(animate);
     }
     animate();
     
