@@ -28,11 +28,17 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d', { alpha: false })
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const windowWidth = Math.floor(canvas.width * 0.1);
-const windowHeight = Math.floor(canvas.height * 0.1);
+const windowWidth = Math.floor(canvas.width * 0.11);
+const windowHeight = Math.floor(canvas.height * 0.11);
 
 const cellWidth = canvas.width / windowWidth; 
 const cellHeight = cellWidth;
+let phi = (1 + Math.sqrt(5)) * 0.5;
+let seedNum = Math.floor(getRndInteger(0, 99999999999) * phi);
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
 
 let aliveNow = 0;
 
@@ -84,7 +90,8 @@ class GameWorld
         {
             for (let x = 0; x < GameWorld.numColumns; x++)
             {
-                if (Math.floor(Math.random() > 0.42))
+                //if (Math.floor(Math.random() > 0.42))
+                if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth * 0.5) + 1) ^ Math.abs(y - Math.floor(windowHeight * 0.5) + 1)) ^ (phi * phi) * 0.0001)))
                 {
                     aliveNow = 1;
                 }
@@ -115,7 +122,8 @@ class GameWorld
     checkSurrounding ()
     {
         // Loop over all cells
-        for (let x = 0; x < GameWorld.numColumns; x++) {
+        for (let x = 0; x < GameWorld.numColumns; x++) 
+        {
             for (let y = 0; y < GameWorld.numRows; y++)
             {
 
