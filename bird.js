@@ -85,7 +85,7 @@ window.addEventListener('load', function () {
             this.y = this.centerY - this.image.height * this.scaleFactor * 0.5;
             this.gap = 3;
             this.mouse = {
-                radius: this.width * 3,
+                radius: this.width > this.height? this.width * 1.5 : this.height * 1.5,
                 x: undefined,
                 y: undefined
             }
