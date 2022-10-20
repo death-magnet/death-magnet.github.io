@@ -11,11 +11,9 @@
 .controls {
 	position: absolute;
 	z-index: 100;
+	width: 5%;
 }
 
-img {
-	display:none;
-}
 
 button {
 	padding: 10px;
