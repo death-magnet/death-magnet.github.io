@@ -91,7 +91,7 @@ class GameWorld
             for (let x = 0; x < GameWorld.numColumns; x++)
             {
                 //if (Math.floor(Math.random() > 0.42))
-                if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth * 0.5) + 1) ^ Math.abs(y - Math.floor(windowHeight * 0.5) + 1)) ^ (phi * phi) * 0.0001)))
+                if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth * 0.5) + 1) ^ Math.abs(y - Math.floor(windowHeight * 0.5) + 1))* 1.1013)))
                 {
                     aliveNow = 1;
                 }
