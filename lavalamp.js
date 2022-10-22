@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'teal';
-    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.13 : canvas.height * 0.13);
+    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.2 : canvas.height * 0.2);
     function randomNumber(min, max) { 
     return Math.random() * (max - min) + min;
     } 
@@ -12,18 +12,19 @@ window.addEventListener('load', function () {
         //ball stuff
         constructor(effect) {
             this.effect = effect;
-            this.x = this.effect.width * 0.5;
+            this.x = Math.random() * this.effect.width;
             this.y = this.effect.height * 0.5;
-            this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
+            this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 50;
             this.speedX = Math.random() * 2 - 1;
             this.speedY = 0.1;
-            this.gravity = 0.05;
+            this.gravity = 0.01;
             this.gravitySpeed = 0;
             this.offset = 2.4;
+            this.isColliding = false;
         }
         
         accelerate(newSpeed) {
-            this.gravity += newSpeed;
+            this.gravity += newSpeed * 0.1;
         }
 
         update() {
@@ -40,17 +41,15 @@ window.addEventListener('load', function () {
             if (this.y - this.radius > this.effect.height - this.radius) {
                 this.accelerate(randomNumber(-0.0001, -0.04)) ;
                 if (this.gravity < 0)
-                    this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 30;
+                    this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 50;
             }
             if (this.y < this.radius) {
                 this.accelerate(randomNumber(0.000001, 0.02));
             }
-            if (this.gravitySpeed > this.radius * this.offset)
-                this.gravitySpeed = this.radius * this.offset;
-            if (this.gravitySpeed < -this.radius * this.offset)
-                this.gravitySpeed = -this.radius * this.offset;
             if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed < 0)
-                this.gravitySpeed = -this.radius * 0.1;
+                this.gravitySpeed = -(this.radius + Math.random()) * 0.07;
+            if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed > 0)
+                this.gravitySpeed = (this.radius + Math.random()) * 0.05;
         }
         
         draw(context) {
@@ -84,12 +83,66 @@ window.addEventListener('load', function () {
 
     const effect = new MetaballsEffect(canvas.width, canvas.height);
     effect.init(numBlobs);
+    function circleIntersect(x1, y1, r1, x2, y2, r2) {
 
+    // Calculate the distance between the two circles
+    let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+
+    // When the distance is smaller or equal to the sum
+    // of the two radius, the circles touch or overlap
+    return squareDistance <= ((r1 + r2) * (r1 + r2))
+}
+    function detectCollisions(){
+    let obj1;
+    let obj2;
+    let gameObjects = effect.metaballsArray;
+    
+    
+    
+    // Reset collision state of all objects
+    for (let i = 0; i < gameObjects.length; i++) {
+        gameObjects[i].isColliding = false;
+    }
+
+    // Start checking for collisions
+    for (let i = 0; i < gameObjects.length; i++)
+    {
+        obj1 = gameObjects[i];
+        for (let j = i + 1; j < gameObjects.length; j++)
+        {
+            obj2 = gameObjects[j];
+
+            // Compare object1 with object2
+            if (circleIntersect(obj1.x, obj1.y, obj1.radius, obj2.x, obj2.y, obj2.radius)){
+                obj1.isColliding = true;
+                obj2.isColliding = true;
+                let vCollision = {x: obj2.x - obj1.x, y: obj2.y - obj1.y};
+                let distance = Math.sqrt((obj2.x-obj1.x)*(obj2.x-obj1.x) + (obj2.y-obj1.y)*(obj2.y-obj1.y));
+                let vCollisionNorm = {x: vCollision.x / distance, y: vCollision.y / distance};
+                let vRelativeVelocity = {x: obj1.speedX - obj2.speedX, y: obj1.speedY - obj2.speedY};
+                let speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
+                if (speed < 0){
+                    break;
+                }
+                obj1.speedX -= (speed * vCollisionNorm.x);
+                obj1.speedY -= (speed * vCollisionNorm.y);
+                obj2.speedX += (speed * vCollisionNorm.x);
+                obj2.speedY += (speed * vCollisionNorm.y);
+            }
+        }
+    }
+}
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         effect.update();
+        detectCollisions();
         effect.draw(ctx);
-        window.requestAnimationFrame(animate);
+        //window.requestAnimationFrame(animate);
+        
+        setTimeout(() =>
+        {
+            window.requestAnimationFrame(animate);
+        }, 16.66666666667);
     }
     animate();
 });

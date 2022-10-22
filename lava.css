@@ -10,5 +10,5 @@ body{
 canvas{
     background:black;
     display: block;
-    filter: blur(10px) contrast(20);
+    filter: blur(12px) contrast(10);
 }
