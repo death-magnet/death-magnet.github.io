@@ -4,27 +4,30 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'teal';
-    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.2 : canvas.height * 0.2);
+    const numBlobs = Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1);
+    let ballName = 0;
     function randomNumber(min, max) { 
     return Math.random() * (max - min) + min;
     } 
     class Ball {
         //ball stuff
         constructor(effect) {
+            ballName ++;
             this.effect = effect;
             this.x = Math.random() * this.effect.width;
             this.y = this.effect.height * 0.5;
-            this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 50;
+            this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 70;
             this.speedX = Math.random() * 2 - 1;
             this.speedY = 0.1;
             this.gravity = 0.01;
             this.gravitySpeed = 0;
             this.offset = 2.4;
+            this.ballName = ballName;
             this.isColliding = false;
         }
         
         accelerate(newSpeed) {
-            this.gravity += newSpeed * 0.1;
+            this.gravity += newSpeed * 0.01;
         }
 
         update() {
@@ -38,18 +41,45 @@ window.addEventListener('load', function () {
             this.gravitySpeed += this.speedY + this.gravity;
             this.x += this.speedX;
             this.y += this.gravitySpeed * 0.35;
-            if (this.y - this.radius > this.effect.height - this.radius) {
-                this.accelerate(randomNumber(-0.0001, -0.04)) ;
+
+            // blobs go up
+            if (this.y - this.radius >= this.effect.height - this.radius) {
+                this.accelerate(randomNumber(-0.00000001, -0.0001)) ;
                 if (this.gravity < 0)
-                    this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 50;
+                    this.radius = Math.random() * Math.floor(canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1) + 70;
             }
-            if (this.y < this.radius) {
-                this.accelerate(randomNumber(0.000001, 0.02));
+
+            //blobs go down
+            if (this.y <= this.radius) {
+                this.accelerate(randomNumber(0.001, 0.01));
             }
-            if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed < 0)
+            //catch offscreen blobs
+            if (this.y > this.effect.height + this.radius){
+                this.speedY *= -1;
+            }
+            if ( this.y < 0 - this.radius){
+                this.speedY *= -1;
+            }
+            /*sometimes ^ that doesn't work so... I hope this will catch way offscreen blobs*/
+            if (this.y > this.effect.height + (this.radius * this.offset)){
+                this.y = this.effect.height + this.radius;
+                this.gravitySpeed = 0;
+            }
+
+            if (this.y < 0 - (this.radius * this.offset)){
+                this.y = 0 - this.radius;
+                this.gravitySpeed = 0;
+            }
+            //slow blobs going up, but less than those going down.
+            if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed < 0){
                 this.gravitySpeed = -(this.radius + Math.random()) * 0.07;
+            }
+
+            //slow blobs going down
             if (this.y < this.effect.height - (this.radius * this.offset) && this.y > (this.radius * this.offset) && this.gravitySpeed > 0)
                 this.gravitySpeed = (this.radius + Math.random()) * 0.05;
+                
+            //console.log("Ball: " + this.ballName + " y pos: " + this.y + " speed: " + this.gravitySpeed);
         }
         
         draw(context) {
