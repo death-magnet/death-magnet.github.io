@@ -16,58 +16,67 @@ window.addEventListener('load', function () {
   let lastY = 0;
   let colorInput = document.querySelector('#color');
 
-    const slider_brushSize = document.getElementById('brushSize');
-    const label_brushSize = document.querySelector('[for="brushSize"]');
-  function draw(e) {
+  const slider_brushSize = document.getElementById('brushSize');
+  const label_brushSize = document.querySelector('[for="brushSize"]');
+
+  function draw(e) 
+  {
     // stop the function if they are not mouse down
     if (!isDrawing) return;
     //listen for mouse move event
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
-    if (e.offsetX == undefined) {
-      ctx.lineTo(e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY);
-      ctx.stroke();[lastX, lastY] = [e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY];
+    if (e.offsetX == undefined) 
+    {
+        ctx.lineTo(e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY);
+        ctx.stroke();[lastX, lastY] = [e.changedTouches[e.changedTouches.length - 1].pageX, e.changedTouches[e.changedTouches.length - 1].pageY];
     }
-    else {
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-      [lastX, lastY] = [e.offsetX, e.offsetY];
+    else 
+    {
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
     }
   }
 
-  canvas.addEventListener('mousedown', (e) => {
-    isDrawing = true;
-    [lastX, lastY] = [e.offsetX, e.offsetY];
+  canvas.addEventListener('mousedown', (e) => 
+  {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
   });
 
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', () => isDrawing = false);
   canvas.addEventListener('mouseout', () => isDrawing = false);
-  canvas.addEventListener('touchstart', (e) => {
-    isDrawing = true;
-    [lastX, lastY] = [e.changedTouches[e.changedTouches.length-1].pageX, e.changedTouches[e.changedTouches.length-1].pageY,];
+  canvas.addEventListener('touchstart', (e) => 
+  {
+      isDrawing = true;
+      [lastX, lastY] = [e.changedTouches[e.changedTouches.length-1].pageX, e.changedTouches[e.changedTouches.length-1].pageY,];
   });
 
   canvas.addEventListener('touchmove', draw);
   canvas.addEventListener('touchend', () => isDrawing = false);
   canvas.addEventListener('touchleave', () => isDrawing = false);
   
-    slider_brushSize.addEventListener('change', function (e)
-    { 
-        brushSize = e.target.value;
-        ctx.lineWidth = brushSize;
+  slider_brushSize.addEventListener('change', function (e)
+  { 
+      brushSize = e.target.value;
+      ctx.lineWidth = brushSize;
 
-        updateSliders();
-    });
-    colorInput.addEventListener('input', () =>{
-    let color = colorInput.value;
-    // document.body.style.backgroundColor = color;
-    ctx.strokeStyle = color;
-});
-    function updateSliders()
-    { 
-        slider_brushSize.value = brushSize;
-        label_brushSize.innerText = 'Size: ' + Number(brushSize);
-    }
-    updateSliders();
+      updateSliders();
+  });
+
+  colorInput.addEventListener('input', () =>
+  {
+  let color = colorInput.value;
+  // document.body.style.backgroundColor = color;
+  ctx.strokeStyle = color;
+  });
+
+  function updateSliders()
+  { 
+      slider_brushSize.value = brushSize;
+      label_brushSize.innerText = 'Size: ' + Number(brushSize);
+  }
+  updateSliders();
 });
