@@ -192,7 +192,7 @@ window.addEventListener('load', function ()
             {
                 //a collision has occurred
 
-                ctx.font = "40% Arial";
+                ctx.font = "60% Arial";
                 ctx.fillStyle = 'red';
                 ctx.fillText("BANG!", bird.x, bird.y);
                 return true;
@@ -214,13 +214,13 @@ window.addEventListener('load', function ()
         frame++;
         lastTree++;
         ctx.fillStyle = 'red';
-        ctx.font = "80% Arial";
+        ctx.font = "90% Arial";
         ctx.strokeText(score, canvas.width * 0.90, canvas.height * 0.1);
         ctx.fillText(score, canvas.width * 0.90, canvas.height * 0.1);
         if(doCollisions())
         {
 
-            ctx.font = "110% Arial";
+            ctx.font = "120% Arial";
             ctx.fillStyle = 'red';
             ctx.fillText("GAME OVER! Score: " + score, canvas.width * 0.2, canvas.height * 0.5);
             setTimeout(() =>
