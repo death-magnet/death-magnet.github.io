@@ -222,7 +222,7 @@ window.addEventListener('load', function ()
 
             ctx.font = "110% Arial";
             ctx.fillStyle = 'red';
-            ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.2, canvas.height * 0.5);
+            ctx.fillText("GAME OVER! Score: " + score, canvas.width * 0.2, canvas.height * 0.5);
             setTimeout(() =>
         {
             window.location.reload();
