@@ -214,13 +214,13 @@ window.addEventListener('load', function ()
         frame++;
         lastTree++;
         ctx.fillStyle = 'red';
-        ctx.font = "70% Arial";
-        ctx.strokeText(score, canvas.width * 0.90, canvas.height * 0.2);
-        ctx.fillText(score, canvas.width * 0.90, canvas.height * 0.2);
+        ctx.font = "80% Arial";
+        ctx.strokeText(score, canvas.width * 0.95, canvas.height * 0.1);
+        ctx.fillText(score, canvas.width * 0.95, canvas.height * 0.1);
         if(doCollisions())
         {
 
-            ctx.font = "90% Arial";
+            ctx.font = "110% Arial";
             ctx.fillStyle = 'red';
             ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.2, canvas.height * 0.5);
             setTimeout(() =>
