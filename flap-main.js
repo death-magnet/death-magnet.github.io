@@ -4,6 +4,12 @@ window.addEventListener('load', function ()
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    document.body.setScaledFont = function() {
+        var f = 0.35, s = this.offsetWidth, fs = s * f;
+        this.style.fontSize = fs + '%';
+        return this
+    }
+    document.body.setScaledFont();
 
     let flapping = false;
     let angle = 0;
@@ -208,15 +214,15 @@ window.addEventListener('load', function ()
         frame++;
         lastTree++;
         ctx.fillStyle = 'red';
-        ctx.font = "80px Arial";
-        ctx.strokeText(score, canvas.width * 0.95, canvas.height * 0.1);
-        ctx.fillText(score, canvas.width * 0.95, canvas.height * 0.1);
+        ctx.font = "70% Arial";
+        ctx.strokeText(score, canvas.width * 0.90, canvas.height * 0.2);
+        ctx.fillText(score, canvas.width * 0.90, canvas.height * 0.2);
         if(doCollisions())
         {
 
-            ctx.font = "128px Arial";
+            ctx.font = "90% Arial";
             ctx.fillStyle = 'red';
-            ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.1, canvas.height * 0.5);
+            ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.2, canvas.height * 0.5);
             setTimeout(() =>
         {
             window.location.reload();
