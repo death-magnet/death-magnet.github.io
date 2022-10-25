@@ -2,8 +2,8 @@ window.addEventListener('load', function ()
 {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth * 0.8;
-    canvas.height = window.innerHeight * 0.8;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     let flapping = false;
     let angle = 0;
@@ -216,7 +216,7 @@ window.addEventListener('load', function ()
 
             ctx.font = "128px Arial";
             ctx.fillStyle = 'red';
-            ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.2, canvas.height * 0.5);
+            ctx.fillText("GAME OVER! Score:" + score, canvas.width * 0.1, canvas.height * 0.5);
             setTimeout(() =>
         {
             window.location.reload();
