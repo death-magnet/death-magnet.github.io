@@ -144,6 +144,7 @@ window.addEventListener('load', function ()
         // of the two radius, the circles touch or overlap
         return squareDistance <= ((r1 + r2) * (r1 + r2));
     }
+
     function detectCollisions()
     {
         let obj1;
