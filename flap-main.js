@@ -16,7 +16,7 @@ window.addEventListener('load', function ()
     let frame = 0;
     let lastTree = 50;
     let score = 0;
-    let gamespeed = 2;
+    let gamespeed = 4;
     let birdX = canvas.width * 0.1;
     let birdY = canvas.height * 0.8;
     const smokeArray = [];
@@ -35,8 +35,8 @@ window.addEventListener('load', function ()
             this.y = birdY;
             this.vx = 0;
             this.vy = 0;
-            this.width = 20;
-            this.height = 20;
+            this.width = Math.floor(canvas.width < canvas.height ? canvas.width * 0.025 : canvas.height * 0.025);
+            this.height = this.width;
             this.weight = 1;
         }
 
@@ -114,10 +114,10 @@ window.addEventListener('load', function ()
     {
         constructor()
         {
-            this.top = (Math.random() * canvas.height * 0.37) + 20;
-            this.bottom = (Math.random() * canvas.height * 0.37) + 20;
+            this.top = (Math.random() * canvas.height * 0.4) + 20;
+            this.bottom = (Math.random() * canvas.height * 0.4) + 20;
             this.x = canvas.width;
-            this.width = 20;
+            this.width = bird.width;
             this.color = 'rgb(128, 128, 128)';
             this.counted = false;
         }
@@ -136,6 +136,8 @@ window.addEventListener('load', function ()
             {
                 score++;
                 this.counted = true;
+                if(score % 20 === 0)
+                    gamespeed += 2;
             }
             this.draw();
         }
