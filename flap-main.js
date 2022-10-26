@@ -16,11 +16,175 @@ window.addEventListener('load', function ()
     let frame = 0;
     let lastTree = 50;
     let score = 0;
-    let gamespeed = 4;
+    let gamespeed = 2;
+    const flapspeed = 0.7;
+    const weight = 1;
     let birdX = canvas.width * 0.1;
     let birdY = canvas.height * 0.8;
+    let time = new Date().getTime();
+    let previous_time = 0;
+    let dt = 0;
+    let target_fps = 60;
     const smokeArray = [];
     const treesArray = [];
+    const background = new Image();
+    background.src = "./images/parallax-mountain-bg.png";
+    const farMountains = new Image();
+    farMountains.src = "./images/parallax-mountain-montain-far.png";
+    const nearMountains = new Image();
+    nearMountains.src = "./images/parallax-mountain-mountains.png";
+    const treesFar = new Image();
+    treesFar.src = "./images/parallax-mountain-trees.png";
+    const treesMid = new Image();
+    treesMid.src = "./images/parallax-mountain-trees.png";
+    const treesNear = new Image();
+    treesNear.src = "./images/parallax-mountain-foreground-trees.png";
+    const BG = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: background
+    }
+    const FM = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: farMountains
+    }
+    const NM = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: nearMountains
+    }
+    const TF = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: treesFar
+    }
+    const TM = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: treesMid
+    }
+    const TN = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        image: treesNear
+    }
+    function handleBackground()
+    {
+        if(FM.x1 <= -FM.width + gamespeed * 0.1)
+        {
+            FM.x1 = FM.width;
+        }
+        else
+        {
+            FM.x1 -= gamespeed * 0.1;
+        }
+        if(NM.x1 <= -NM.width + gamespeed * 0.2)
+        {
+            NM.x1 = NM.width;
+        }
+        else
+        {
+            NM.x1 -= gamespeed * 0.2;
+        }
+        if(TF.x1 <= -TF.width + gamespeed * 0.4)
+        {
+            TF.x1 = TF.width;
+        }
+        else
+        {
+            TF.x1 -= gamespeed * 0.4;
+        }
+        if(TM.x1 <= -TM.width + gamespeed * 0.8)
+        {
+            TM.x1 = TM.width;
+        }
+        else
+        {
+            TM.x1 -= gamespeed * 0.8;
+        }
+        if(TN.x1 <= -TN.width + gamespeed * 1.2)
+        {
+            TN.x1 = TN.width;
+        }
+        else
+        {
+            TN.x1 -= gamespeed * 1.2;
+        }
+        
+        
+        if(FM.x2 <= -FM.width + gamespeed * 0.1)
+        {
+            FM.x2 = FM.width;
+        }
+        else
+        {
+            FM.x2 -= gamespeed * 0.1;
+        }
+        if(NM.x2 <= -NM.width + gamespeed * 0.2)
+        {
+            NM.x2 = NM.width;
+        }
+        else
+        {
+            NM.x2 -= gamespeed * 0.2;
+        }
+        if(TF.x2 <= -TF.width + gamespeed * 0.4)
+        {
+            TF.x2 = TF.width;
+        }
+        else
+        {
+            TF.x2 -= gamespeed * 0.4;
+        }
+        if(TM.x2 <= -TM.width + gamespeed * 0.8)
+        {
+            TM.x2 = TM.width;
+        }
+        else
+        {
+            TM.x2 -= gamespeed * 0.8;
+        }
+        if(TN.x2 <= -TN.width + gamespeed * 1.2)
+        {
+            TN.x2 = TN.width;
+        }
+        else
+        {
+            TN.x2 -= gamespeed * 1.2;
+        }
+        
+        ctx.drawImage(BG.image, BG.x1, BG.y, BG.width, BG.height);
+        ctx.drawImage(FM.image, FM.x1, FM.y, FM.width, FM.height);
+        ctx.drawImage(FM.image, FM.x2, FM.y, FM.width, FM.height);
+        ctx.drawImage(NM.image, NM.x1, NM.y, NM.width, NM.height);
+        ctx.drawImage(NM.image, NM.x2, NM.y, NM.width, NM.height);
+        ctx.drawImage(TF.image, TF.x1, TF.y, TF.width, TF.height);
+        ctx.drawImage(TF.image, TF.x2, TF.y, TF.width, TF.height);
+        ctx.drawImage(TM.image, TM.x1, TM.y, TM.width, TM.height);
+        ctx.drawImage(TM.image, TM.x2, TM.y, TM.width, TM.height);
+        ctx.drawImage(TN.image, TN.x1, TN.y, TN.width, TN.height);
+        ctx.drawImage(TN.image, TN.x2, TN.y, TN.width, TN.height);
+
+    }
     
     function randomNumber(min, max) 
     { 
@@ -37,13 +201,13 @@ window.addEventListener('load', function ()
             this.vy = 0;
             this.width = Math.floor(canvas.width < canvas.height ? canvas.width * 0.025 : canvas.height * 0.025);
             this.height = this.width;
-            this.weight = 1;
+            this.weight = weight;
         }
 
         update()
         {
             //move the bird a little bit
-            let curve = Math.sin(angle) * 10;
+            let curve = Math.sin(angle) * 10 * dt * target_fps;
 
             //keep bird within screen boundary
             if(this.y > canvas.height - this.height + curve)
@@ -63,8 +227,8 @@ window.addEventListener('load', function ()
             {
                 //this adds a downward force
                 this.vy += this.weight;
-                this.vy *= 0.93;
-                this.y += this.vy;
+                this.vy *= 0.9;
+                this.y += this.vy * dt * target_fps;
             }
             if(flapping)
             {
@@ -74,13 +238,13 @@ window.addEventListener('load', function ()
 
         draw()
         {
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = 'green';
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
 
         flap()
         {
-            this.vy -= 2;
+            this.vy -= flapspeed * dt * target_fps;
         }
     }
 
@@ -97,8 +261,8 @@ window.addEventListener('load', function ()
 
         update()
         {
-            this.x -= gamespeed;
-            this.y += this.speedY;
+            this.x -= gamespeed * dt * target_fps;
+            this.y += this.speedY * dt * target_fps;
         }
 
         draw()
@@ -118,7 +282,7 @@ window.addEventListener('load', function ()
             this.bottom = (Math.random() * canvas.height * 0.4) + 20;
             this.x = canvas.width;
             this.width = bird.width;
-            this.color = 'rgb(128, 128, 128)';
+            this.color = 'rgb(0, 163, 163)';
             this.counted = false;
         }
 
@@ -131,13 +295,13 @@ window.addEventListener('load', function ()
 
         update()
         {
-            this.x -= gamespeed;
+            this.x -= gamespeed * dt * target_fps;
             if(!this.counted && this.x < bird.x)
             {
                 score++;
                 this.counted = true;
                 if(score % 20 === 0)
-                    gamespeed += 2;
+                    gamespeed += 1;
             }
             this.draw();
         }
@@ -146,8 +310,8 @@ window.addEventListener('load', function ()
 
     function doTrees()
     {
-        let interval = Math.floor(randomNumber(100, 150));
-        if(frame % interval === 0 && lastTree >= 100)
+        let interval = Math.floor(randomNumber(50, 120));
+        if(frame % interval === 0 && lastTree >= 50)
         {
             treesArray.unshift(new Tree);
             lastTree = 0;
@@ -208,10 +372,14 @@ window.addEventListener('load', function ()
     {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         //window.requestAnimationFrame(animate);
-        bird.update();
-        bird.draw();
+        handleBackground();
+        time = new Date().getTime();
+        dt = (time - previous_time) * 0.001;
+        previous_time = time;
         doParticles();
         doTrees();
+        bird.update();
+        bird.draw();
         angle += 0.12;
         frame++;
         lastTree++;
@@ -232,10 +400,7 @@ window.addEventListener('load', function ()
         }
         else
         {
-            setTimeout(() =>
-            {
-                window.requestAnimationFrame(animate);
-            }, 16.66666666667);
+            window.requestAnimationFrame(animate);
         }
     }
 

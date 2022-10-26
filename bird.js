@@ -7,9 +7,8 @@ window.addEventListener('load', function () {
     canvas.height = window.innerHeight;
     ctx.fillStyle = 'white';
     var oldcolor;
-    const FPS = 0.0060;
-    let time = 0;
-    let previous_time = performance.now();
+    let time = new Date().getTime();
+    let previous_time = 0;
     let dt = 0;
     let target_fps = 60;
     /*function randomNumber(min, max) { 
@@ -53,12 +52,12 @@ window.addEventListener('load', function () {
             this.dx = this.effect.mouse.x - this.x;
             this.dy = this.effect.mouse.y - this.y;
             this.distance = this.dx * this.dx + this.dy * this.dy;
-            this.force = -this.effect.mouse.radius / this.distance * 0.5;
+            this.force = (-this.effect.mouse.radius / this.distance) * 1.3;
 
             if (this.distance < this.effect.mouse.radius) {
                 this.angle = Math.atan2(this.dy, this.dx);
-                this.vx += this.force * Math.cos(this.angle) * dt * target_fps * 0.00001;
-                this.vy += this.force * Math.sin(this.angle) * dt * target_fps * 0.00001;
+                this.vx += this.force * Math.cos(this.angle) * dt * target_fps;
+                this.vy += this.force * Math.sin(this.angle) * dt * target_fps;
             }
             if (this.x < this.radius || this.x > this.effect.width - this.radius) this.vx *= -1;
             if (this.y < this.radius || this.y > this.effect.height - this.radius) this.vy *= -1;
@@ -140,15 +139,12 @@ window.addEventListener('load', function () {
     function animate() {
     
         ctx.clearRect(0,0, canvas.width, canvas.height);
-        time = performance.now();
-        dt = ((time - previous_time) / FPS);
+        time = new Date().getTime();
+        dt = (time - previous_time) * 0.001;
         previous_time = time;
         effect.draw(ctx);
         effect.update();
-        setTimeout(() =>
-        {
-            window.requestAnimationFrame(animate);
-        }, 16.66666666667);
+        window.requestAnimationFrame(animate);
         //requestAnimationFrame(animate);
     }
     animate();
