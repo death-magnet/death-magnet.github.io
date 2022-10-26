@@ -17,14 +17,15 @@ window.addEventListener('load', function ()
     let lastTree = 50;
     let score = 0;
     let gamespeed = 2;
-    const flapspeed = 0.7;
-    const weight = 1;
+    const weight = canvas.height * 0.002;
     let birdX = canvas.width * 0.1;
     let birdY = canvas.height * 0.8;
     let time = new Date().getTime();
     let previous_time = 0;
     let dt = 0;
     let target_fps = 60;
+
+    let flapspeed = canvas.height * 0.003;
     const smokeArray = [];
     const treesArray = [];
     const background = new Image();
