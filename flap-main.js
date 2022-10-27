@@ -15,10 +15,10 @@ window.addEventListener('load', function ()
     let angle = 0;
     let frame = 0;
     let lastTree = 50;
-    let score = 0;
-    let gamespeed = 2;
+    let score = -1;
+    let gamespeed = 3;
     const weight = canvas.height * 0.002;
-    let birdX = canvas.width * 0.1;
+    let birdX = canvas.width * 0.2;
     let birdY = canvas.height * 0.8;
     let time = new Date().getTime();
     let previous_time = 0;
@@ -36,8 +36,6 @@ window.addEventListener('load', function ()
     nearMountains.src = "./images/parallax-mountain-mountains.png";
     const treesFar = new Image();
     treesFar.src = "./images/parallax-mountain-trees.png";
-    const treesMid = new Image();
-    treesMid.src = "./images/parallax-mountain-trees.png";
     const treesNear = new Image();
     treesNear.src = "./images/parallax-mountain-foreground-trees.png";
     const BG = {
@@ -71,14 +69,6 @@ window.addEventListener('load', function ()
         width: canvas.width,
         height: canvas.height,
         image: treesFar
-    }
-    const TM = {
-        x1: 0,
-        x2: canvas.width,
-        y: 0,
-        width: canvas.width,
-        height: canvas.height,
-        image: treesMid
     }
     const TN = {
         x1: 0,
@@ -114,23 +104,14 @@ window.addEventListener('load', function ()
         {
             TF.x1 -= gamespeed * 0.4;
         }
-        if(TM.x1 <= -TM.width + gamespeed * 0.8)
-        {
-            TM.x1 = TM.width;
-        }
-        else
-        {
-            TM.x1 -= gamespeed * 0.8;
-        }
-        if(TN.x1 <= -TN.width + gamespeed * 1.2)
+        if(TN.x1 <= -TN.width + gamespeed * 0.8)
         {
             TN.x1 = TN.width;
         }
         else
         {
-            TN.x1 -= gamespeed * 1.2;
+            TN.x1 -= gamespeed * 0.8;
         }
-        
         
         if(FM.x2 <= -FM.width + gamespeed * 0.1)
         {
@@ -156,21 +137,13 @@ window.addEventListener('load', function ()
         {
             TF.x2 -= gamespeed * 0.4;
         }
-        if(TM.x2 <= -TM.width + gamespeed * 0.8)
-        {
-            TM.x2 = TM.width;
-        }
-        else
-        {
-            TM.x2 -= gamespeed * 0.8;
-        }
-        if(TN.x2 <= -TN.width + gamespeed * 1.2)
+        if(TN.x2 <= -TN.width + gamespeed * 0.8)
         {
             TN.x2 = TN.width;
         }
         else
         {
-            TN.x2 -= gamespeed * 1.2;
+            TN.x2 -= gamespeed * 0.8;
         }
         
         ctx.drawImage(BG.image, BG.x1, BG.y, BG.width, BG.height);
@@ -180,8 +153,6 @@ window.addEventListener('load', function ()
         ctx.drawImage(NM.image, NM.x2, NM.y, NM.width, NM.height);
         ctx.drawImage(TF.image, TF.x1, TF.y, TF.width, TF.height);
         ctx.drawImage(TF.image, TF.x2, TF.y, TF.width, TF.height);
-        ctx.drawImage(TM.image, TM.x1, TM.y, TM.width, TM.height);
-        ctx.drawImage(TM.image, TM.x2, TM.y, TM.width, TM.height);
         ctx.drawImage(TN.image, TN.x1, TN.y, TN.width, TN.height);
         ctx.drawImage(TN.image, TN.x2, TN.y, TN.width, TN.height);
 
@@ -200,7 +171,7 @@ window.addEventListener('load', function ()
             this.y = birdY;
             this.vx = 0;
             this.vy = 0;
-            this.width = Math.floor(canvas.width < canvas.height ? canvas.width * 0.025 : canvas.height * 0.025);
+            this.width = Math.floor(canvas.width < canvas.height ? canvas.width * 0.05 : canvas.height * 0.05);
             this.height = this.width;
             this.weight = weight;
         }
@@ -302,7 +273,7 @@ window.addEventListener('load', function ()
                 score++;
                 this.counted = true;
                 if(score % 20 === 0)
-                    gamespeed += 1;
+                    gamespeed += 2;
             }
             this.draw();
         }
