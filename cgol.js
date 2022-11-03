@@ -166,7 +166,7 @@ class GameWorld
         setTimeout(() =>
         {
             window.requestAnimationFrame(() => this.gameLoop());
-        }, 64);
+        }, 69);
     }
 }
 
