@@ -1,7 +1,7 @@
 
-
-let canvasWidth = 256;
-let canvasHeight = 144;
+const canvasWidth = Math.round(window.innerWidth * 0.2);
+const canvasHeight = Math.round(window.innerHeight * 0.14);
+console.log(canvasHeight);
 
 const HTML_COLOR_SCALE = [
   parseColor(0x070707), parseColor(0x1f0707), parseColor(0x2f0f07),
@@ -87,7 +87,7 @@ class DoomFireAnimation {
       const dstRow = (srcY + 1) * this.width;
       const imageRow = (this.height - srcY) * this.width;
       for (let srcX = 0; srcX < this.width; srcX++) {      
-        const rand = Math.round(Math.random() * 3.0);
+        const rand = Math.round(Math.random() * 3);
   
         const srcIndex = srcRow + srcX;
         const srcColor = this.flames[srcIndex];
@@ -146,7 +146,6 @@ class DoomFire extends HTMLElement {
     // Make the rendering pixelated, for a retro effect,
     this.canvas.style.imageRendering = 'pixelated';
 
-    console.log('Rendering with regular Canvas.');
     this.animation = new DoomFireAnimation(window, this.canvas);
     
 
