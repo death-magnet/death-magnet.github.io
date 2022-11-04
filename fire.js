@@ -117,19 +117,6 @@ class DoomFireAnimation {
     this.lastUpdate = now;
     this.parent.requestAnimationFrame(this._update.bind(this));
   }
-
-  toggle() {
-    if (this.active) {
-      for (let x = 0; x < this.width; x++) {
-        this.setValue(x, 0, 0);      
-      }    
-    } else {
-      for (let x = 0; x < this.width; x++) {
-        this.setValue(x, 0, 35);      
-      }    
-    }
-    this.active = !this.active;    
-  }  
 }
 
 function parseColor(color) {
@@ -165,18 +152,10 @@ class DoomFire extends HTMLElement {
 
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.appendChild(this.canvas);
-     
-    this.addEventListener('click', () => {
-      this.toggle();
-    });
   }
 
   connectedCallback() {
     this.animation.start();
-  }  
-
-  toggle() {
-    this.animation.toggle();   
   }
 }
 
