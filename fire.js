@@ -1,7 +1,7 @@
 
 
-let canvasWidth = 224;
-let canvasHeight = 126;
+let canvasWidth = 256;
+let canvasHeight = 144;
 
 const HTML_COLOR_SCALE = [
   parseColor(0x070707), parseColor(0x1f0707), parseColor(0x2f0f07),
