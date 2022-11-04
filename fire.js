@@ -158,3 +158,10 @@ class DoomFire extends HTMLElement {
 if (!customElements.get('doom-fire')) {
   customElements.define('doom-fire', DoomFire);
 }
+const audio = document.createElement('audio');
+
+if (audio.canPlayType('audio/mpeg')) {
+  audio.setAttribute('src','fire-1.mp3');
+}
+
+audio.play();
