@@ -1,7 +1,6 @@
 
 const canvasWidth = Math.round(window.innerWidth * 0.2);
 const canvasHeight = Math.round(window.innerHeight * 0.14);
-console.log(canvasHeight);
 
 const HTML_COLOR_SCALE = [
   parseColor(0x070707), parseColor(0x1f0707), parseColor(0x2f0f07),
@@ -29,7 +28,6 @@ class DoomFireAnimation {
     this.imageData = this.ctx.getImageData(0, 0, this.width, this.height);    
     this._init();
     this.lastUpdate = 0;
-    this.active = true;
   }
 
   posAt(x, y) {
@@ -130,7 +128,6 @@ function parseColor(color) {
 class DoomFire extends HTMLElement {
   constructor() {
     super();
-    this.active = true;
 
     // Create a Canvas to draw the flames.
     this.canvas = document.createElement('canvas');
