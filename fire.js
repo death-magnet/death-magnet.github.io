@@ -1,7 +1,10 @@
 //based on code from https://bandarra.me/2021/01/13/Building-Doom-Fire-using-modern-JavaScript/
 
-const canvasWidth = Math.round(window.innerWidth * 0.2);
-const canvasHeight = Math.round(window.innerHeight * 0.14);
+const canvasWidth = Math.round(window.innerWidth * 0.28);
+const canvasHeight = Math.round(window.innerHeight * 0.20);
+
+
+//original color palette - set height above to 0.14
 
 const HTML_COLOR_SCALE = [
   parseColor(0x070707), parseColor(0x1f0707), parseColor(0x2f0f07),
@@ -17,6 +20,37 @@ const HTML_COLOR_SCALE = [
   parseColor(0xB7B72F), parseColor(0xB7B737), parseColor(0xCFCF6F),
   parseColor(0xDFDF9F), parseColor(0xEFEFC7), parseColor(0xFFFFFF)   
 ];
+
+//new color palette - set height above to 0.22, width to 0.28
+const HTML_COLOR_SCALE2 = [
+  parseColor(0x070707), parseColor(0x110707), parseColor(0x1f0707),
+  parseColor(0x260a07), parseColor(0x2f0f07), parseColor(0x390f07),
+  parseColor(0x470f07), parseColor(0x4e1207), parseColor(0x571707),
+  parseColor(0x5e1a07), parseColor(0x671f07), parseColor(0x6e1f07),
+  parseColor(0x771f07), parseColor(0x812207), parseColor(0x8f2707),
+  parseColor(0x962a07), parseColor(0x9f2f07), parseColor(0xa63607),
+  parseColor(0xaf3f07), parseColor(0xb64207), parseColor(0xbf4707),
+  parseColor(0xc24707), parseColor(0xc74707), parseColor(0xd14a07),
+  parseColor(0xdf4f07), parseColor(0xdf5207), parseColor(0xdf5707),
+  parseColor(0xdf5707), parseColor(0xdc5a07), parseColor(0xd75f07),
+  parseColor(0xd7620a), parseColor(0xd7670f), parseColor(0xd46a0f),
+  parseColor(0xcf6f0f), parseColor(0xcf720f), parseColor(0xcf770f),
+  parseColor(0xcf7a0f), parseColor(0xcf7f0f), parseColor(0xcf8212),
+  parseColor(0xcf8717), parseColor(0xcc8717), parseColor(0xc78717),
+  parseColor(0xc78a17), parseColor(0xc78f17), parseColor(0xc7921a),
+  parseColor(0xc7971f), parseColor(0xc49a1f), parseColor(0xbf9f1f),
+  parseColor(0xbf9f1f), parseColor(0xbfa222), parseColor(0xbfa727),
+  parseColor(0xbfa727), parseColor(0xbfaa2a), parseColor(0xbfaf2f),
+  parseColor(0xbcb22f), parseColor(0xb7b72f), parseColor(0xb7b732),
+  parseColor(0xb7b737), parseColor(0xc1c14e), parseColor(0xcfcf6f),
+  parseColor(0xd6d683), parseColor(0xdfdf9f), parseColor(0xe6e6b0),
+  parseColor(0xefefc7), parseColor(0xf6f6de), parseColor(0xffffff)
+];
+
+//use this to change color palette
+const colors = HTML_COLOR_SCALE2;
+
+
 const UPDATE_INTERVAL = 1000 / 24; // FirePlace runs at 24FPS.
 class FirePlaceAnimation 
 {
@@ -67,9 +101,9 @@ class FirePlaceAnimation
       }
     }
 
-    for (let x = 0; x < this.width; x++) 
+    for (let x = 0; x < this.width * 2; x++) 
     {
-      this.setValue(x, 0, 35);      
+      this.setValue(x, 0, colors.length -1);      
     }
   }
   _initCanvas() 
@@ -117,7 +151,7 @@ class FirePlaceAnimation
         const pos = (imageRow + srcX) * 4;  
         if (srcColor > 0) 
         {
-          const color = HTML_COLOR_SCALE[srcColor];
+          const color = colors[srcColor];
           this.imageData.data[pos] = color.r;
           this.imageData.data[pos + 1] = color.g;
           this.imageData.data[pos + 2] = color.b;
