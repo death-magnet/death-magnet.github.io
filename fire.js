@@ -1,3 +1,4 @@
+//based on code from https://bandarra.me/2021/01/13/Building-Doom-Fire-using-modern-JavaScript/
 
 const canvasWidth = Math.round(window.innerWidth * 0.2);
 const canvasHeight = Math.round(window.innerHeight * 0.14);
@@ -16,9 +17,11 @@ const HTML_COLOR_SCALE = [
   parseColor(0xB7B72F), parseColor(0xB7B737), parseColor(0xCFCF6F),
   parseColor(0xDFDF9F), parseColor(0xEFEFC7), parseColor(0xFFFFFF)   
 ];
-const UPDATE_INTERVAL = 1000 / 24; // DoomFire runs at 24FPS.
-class DoomFireAnimation {
-  constructor(parent, canvas) {
+const UPDATE_INTERVAL = 1000 / 24; // FirePlace runs at 24FPS.
+class FirePlaceAnimation 
+{
+  constructor(parent, canvas) 
+  {
     this.canvas = canvas;
     this.parent = parent;
     this.flames = [];
@@ -30,61 +33,76 @@ class DoomFireAnimation {
     this.lastUpdate = 0;
   }
 
-  posAt(x, y) {
+  posAt(x, y) 
+  {
     return y * this.width + x;
   }
     
-  setValue(x, y, value) {
+  setValue(x, y, value) 
+  {
     let pos = this.posAt(x, y);
     this.flames[pos] = value; 
   }
 
-  valueAt(x, y) {
+  valueAt(x, y) 
+  {
     let pos = this.posAt(x, y);
     return this.flames[pos];
   }  
 
-  _init() {
+  _init() 
+  {
     this._initCanvas();
     this._initFlames();
   }
 
-  _initFlames() {
+  _initFlames() 
+  {
     // Initialise the flames.
-    for (let x = 0; x < this.width; x++) {
-      for (let y = 1; y < this.height; y++) {
+    for (let x = 0; x < this.width; x++) 
+    {
+      for (let y = 1; y < this.height; y++) 
+      {
         this.setValue(x, y, 0);
       }
     }
 
-    for (let x = 0; x < this.width; x++) {
+    for (let x = 0; x < this.width; x++) 
+    {
       this.setValue(x, 0, 35);      
     }
   }
-  _initCanvas() {
+  _initCanvas() 
+  {
     // Initialise the canvas with black.
-    for (let i = 0; i < this.imageData.data.length; i++) {
+    for (let i = 0; i < this.imageData.data.length; i++) 
+    {
       this.imageData.data[i] = 0;
       if (i % 4 == 3) this.imageData.data[i] = 255;
     }
   }
 
-  start() {
+  start() 
+  {
     requestAnimationFrame(this._update.bind(this));
   }
 
-  _update() {
+  _update() 
+  {
     let now = performance.now();
-    if (now - this.lastUpdate < UPDATE_INTERVAL) {
+    if (now - this.lastUpdate < UPDATE_INTERVAL) 
+    {
       this.parent.requestAnimationFrame(this._update.bind(this));
       return;
     }
 
-    for (let srcY = 0; srcY < this.height; srcY++) {
+    for (let srcY = 0; srcY < this.height; srcY++) 
+    {
       const srcRow = srcY * this.width;
       const dstRow = (srcY + 1) * this.width;
       const imageRow = (this.height - srcY) * this.width;
-      for (let srcX = 0; srcX < this.width; srcX++) {      
+      for (let srcX = 0; srcX < this.width; srcX++) 
+      {      
         const rand = Math.round(Math.random() * 3);
   
         const srcIndex = srcRow + srcX;
@@ -97,13 +115,16 @@ class DoomFireAnimation {
         this.flames[index] = dstColor; 
   
         const pos = (imageRow + srcX) * 4;  
-        if (srcColor > 0) {
+        if (srcColor > 0) 
+        {
           const color = HTML_COLOR_SCALE[srcColor];
           this.imageData.data[pos] = color.r;
           this.imageData.data[pos + 1] = color.g;
           this.imageData.data[pos + 2] = color.b;
           this.imageData.data[pos + 3] = 255;
-        } else {
+        } 
+        else 
+        {
           this.imageData.data[pos] = 0;
           this.imageData.data[pos + 1] = 0;
           this.imageData.data[pos + 2] = 0;
@@ -117,7 +138,8 @@ class DoomFireAnimation {
   }
 }
 
-function parseColor(color) {
+function parseColor(color) 
+{
   const b = color & 0xFF;
   const g = color >> 8 & 0xFF;
   const r = color >> 16 & 0xFF;
@@ -125,8 +147,10 @@ function parseColor(color) {
 }
 
 
-class DoomFire extends HTMLElement {
-  constructor() {
+class FirePlace extends HTMLElement 
+{
+  constructor() 
+  {
     super();
 
     // Create a Canvas to draw the flames.
@@ -136,32 +160,49 @@ class DoomFire extends HTMLElement {
     this.canvas.width = canvasWidth;
     this.canvas.height = canvasHeight;
 
-    // Make it fill the whole element.
-    this.canvas.style.width = '100%';
-    this.canvas.style.height = '100%';
+    //tiny margin to allow for scrolling - this lets me hide the url bar on mobile firefox.
+    this.canvas.style.width = '99vw';
+    this.canvas.style.height = '99vh';
 
     // Make the rendering pixelated, for a retro effect,
     this.canvas.style.imageRendering = 'pixelated';
 
-    this.animation = new DoomFireAnimation(window, this.canvas);
+    this.animation = new FirePlaceAnimation(window, this.canvas);
     
 
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.appendChild(this.canvas);
   }
 
-  connectedCallback() {
+  connectedCallback() 
+  {
     this.animation.start();
   }
 }
 
-if (!customElements.get('doom-fire')) {
-  customElements.define('doom-fire', DoomFire);
+if (!customElements.get('fire-place')) 
+{
+  customElements.define('fire-place', FirePlace);
 }
 const audio = document.createElement('audio');
 
-if (audio.canPlayType('audio/mpeg')) {
+if (audio.canPlayType('audio/mpeg')) 
+{
   audio.setAttribute('src','fire-1.mp3');
+  audio.setAttribute("preload", "auto", "loop");
+  audio.autobuffer = true;
+  audio.load();
 }
 
 audio.play();
+
+
+//this audio clip does not loop seamlessly. so a tiny hack to make it a little more seamless. Stop the audio before the end, start it again after the start to skip the fade in / fade out.
+setInterval(function()
+{
+  if(audio.currentTime > 58)
+  {
+    audio.currentTime = 1;
+    audio.play();
+  }
+}, 100);
