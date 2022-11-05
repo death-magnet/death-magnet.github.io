@@ -169,7 +169,7 @@ class FirePlace extends HTMLElement
 
     this.animation = new FirePlaceAnimation(window, this.canvas);
     
-
+    //not quite sure what this next bit does, but it is absolutely essential.
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.appendChild(this.canvas);
   }
