@@ -173,7 +173,6 @@ window.addEventListener('load', function ()
     {
         mouse.x = e.changedTouches[0].clientX;
         mouse.y = e.changedTouches[0].clientY;
-        console.log(e.changedTouches[0].clientX);
     });
 
     display.addEventListener('mousedown', handleClick);
@@ -195,15 +194,13 @@ window.addEventListener('load', function ()
     function animate() 
     {
         ctx.clearRect(0, 0, width, height);
-        time = new Date().getTime();
-        for (var i = 0; i < particles.length; i++) 
-        {   
-
-            particles[i].update();
-            if(!particles[i].isColliding)
-                particles[i].attract(mouse.x, mouse.y);
-            particles[i].draw();
-        }
+        particles.forEach(particle =>
+        {
+            particle.update();
+            if(!particle.isColliding)
+                particle.attract(mouse.x, mouse.y);
+            particle.draw();
+        });
         //window.requestAnimationFrame(animate);
         setTimeout(() =>
         {
