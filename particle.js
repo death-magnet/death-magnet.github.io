@@ -161,33 +161,24 @@ window.addEventListener('load', function ()
         particles[i] = new Particle(Math.random() * width, Math.random() * height);
     }
 
-    display.addEventListener('mousemove', onMousemove);
-    display.addEventListener('touchmove', onTouchmove);
-    display.addEventListener('mousedown', handleClick);
-    display.addEventListener('mouseup', handleClick);
-    display.addEventListener('touchstart', handleClick);
-    display.addEventListener('touchend', handleClick);
-
-    function onMousemove(e) 
+    display.addEventListener('mousemove', (e) =>
     {
         if(clicked)
         {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         }
-    }
-    
-
-    function onTouchmove(e) 
+    });
+    display.addEventListener('touchmove', (e) =>
     {
-        if(clicked)
-        {
-            mouse.x = e.changedTouches[e.changedTouches.length - 1].pageX;
-            mouse.y = e.changedTouches[e.changedTouches.length - 1].pageY;
-        }
-        touch = true;
-    }
-    
+        mouse.x = e.changedTouches[0].clientX;
+        mouse.y = e.changedTouches[0].clientY;
+        console.log(e.changedTouches[0].clientX);
+    });
+
+    display.addEventListener('mousedown', handleClick);
+    display.addEventListener('mouseup', handleClick);
+
     function handleClick(e)
     {
         clicked = !clicked;
@@ -196,11 +187,7 @@ window.addEventListener('load', function ()
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         }
-        else
-        {    
-            mouse.x = e.changedTouches[e.changedTouches.length - 1].pageX;
-            mouse.y = e.changedTouches[e.changedTouches.length - 1].pageY;
-        }
+        //console.log(e.touches[0].clientX);
     }
     
     requestAnimationFrame(animate);
