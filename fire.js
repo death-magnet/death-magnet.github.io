@@ -21,7 +21,7 @@ const HTML_COLOR_SCALE = [
   parseColor(0xDFDF9F), parseColor(0xEFEFC7), parseColor(0xFFFFFF)   
 ];
 
-//new color palette - set height above to 0.22, width to 0.28
+//new color palette - set height above to 0.20, width to 0.28
 const HTML_COLOR_SCALE2 = [
   parseColor(0x070707), parseColor(0x110707), parseColor(0x1f0707),
   parseColor(0x260a07), parseColor(0x2f0f07), parseColor(0x390f07),
