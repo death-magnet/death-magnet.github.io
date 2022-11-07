@@ -59,13 +59,13 @@ window.addEventListener('load', function ()
             this.oldY = this.rect.y;
             if(this.rect.x < 0 || this.rect.x > display.width)
             {
-                this.rect.speedX *= -1 * DAMPING;
-                this.rect.speedY *= DAMPING;
+                this.rect.speedX *= -1 * DAMPING * 0.9;
+                this.rect.speedY *= DAMPING * 0.9;
             }
             if(this.rect.y < 0 || this.rect.y > display.height)
             {
-                this.rect.speedX *= DAMPING;
-                this.rect.speedY *= -1 * DAMPING;
+                this.rect.speedX *= DAMPING * 0.9;
+                this.rect.speedY *= -1 * DAMPING * 0.9;
             }
             this.rect.x += this.rect.speedX;
             this.rect.y += this.rect.speedY;
