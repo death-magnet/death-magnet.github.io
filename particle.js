@@ -1,11 +1,11 @@
 window.addEventListener('load', function () 
 {   
-    const DAMPING = 0.998;
+    const DAMPING = 0.996;
     const display = document.getElementById('canvas1');
     const ctx = display.getContext('2d');
     const width = display.width = window.innerWidth;
     const height = display.height = window.innerHeight;
-    const numParticles = display.width > display.height ? display.height : display.width;
+    const numParticles = display.width > display.height ? display.height * 0.8 : display.width * 0.8;
     const allowCollisions = false;
 
     let clicked = false;
@@ -22,7 +22,7 @@ window.addEventListener('load', function ()
 
             this.x = this.oldX = x;
             this.y = this.oldY = y;
-            this.size = display.width < display.height ? display.width * 0.008 : display.height * 0.008;
+            this.size = display.width < display.height ? display.width * 0.012 : display.height * 0.012;
             this.width = this.size;
             this.height = this.size;
             this.color = '#00a3a3';
