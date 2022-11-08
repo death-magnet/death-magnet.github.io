@@ -23,7 +23,7 @@ window.addEventListener('load', function ()
 
             this.x = this.oldX = x;
             this.y = this.oldY = y;
-            this.size = Math.floor(display.width < display.height ? display.width * 0.003 : display.height * 0.003);
+            this.size = Math.floor(display.width < display.height ? display.width * 0.0032 : display.height * 0.0032);
             this.color = '#00a3a3';
             this.rect = {
                 x : this.x,
@@ -51,8 +51,8 @@ window.addEventListener('load', function ()
         update()
         {
 
-            this.rect.speedX = (this.rect.x - this.oldX) * DAMPING;
-            this.rect.speedY = (this.rect.y - this.oldY) * DAMPING;
+            this.rect.speedX = (this.rect.x - this.oldX);
+            this.rect.speedY = (this.rect.y - this.oldY);
             this.oldX = this.rect.x;
             this.oldY = this.rect.y;
             if(this.rect.x < 0 || this.rect.x > display.width)
@@ -65,8 +65,8 @@ window.addEventListener('load', function ()
                 this.rect.speedX *= DAMPING * 0.9;
                 this.rect.speedY *= -1 * DAMPING * 0.9;
             }
-            this.rect.x += this.rect.speedX;
-            this.rect.y += this.rect.speedY;
+            this.rect.x += this.rect.speedX * DAMPING;
+            this.rect.y += this.rect.speedY * DAMPING;
         }
         draw()
         {
@@ -106,6 +106,7 @@ window.addEventListener('load', function ()
             mouse.y = e.clientY;
         }
     });
+
     display.addEventListener('touchmove', (e) =>
     {
         mouse.x = e.changedTouches[0].clientX;
@@ -134,8 +135,7 @@ window.addEventListener('load', function ()
         particles.forEach(particle =>
         {
             particle.update();
-            if(!particle.isColliding)
-                particle.attract(mouse.x, mouse.y);
+            particle.attract(mouse.x, mouse.y);
             particle.draw();
         });
         window.requestAnimationFrame(animate);
