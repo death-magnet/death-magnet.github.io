@@ -5,8 +5,7 @@ window.addEventListener('load', function ()
     const ctx = display.getContext('2d');
     const width = display.width = window.innerWidth;
     const height = display.height = window.innerHeight;
-    const numParticles = display.width > display.height ? display.height * 0.8 : display.width * 0.8;
-    const allowCollisions = false;
+    const numParticles = Math.floor(display.width < display.height ? display.height * 1.3 : display.width * 1.3);
 
     let clicked = false;
     let touch = false;
@@ -22,18 +21,15 @@ window.addEventListener('load', function ()
 
             this.x = this.oldX = x;
             this.y = this.oldY = y;
-            this.size = display.width < display.height ? display.width * 0.012 : display.height * 0.012;
-            this.width = this.size;
-            this.height = this.size;
+            this.size = Math.floor(display.width < display.height ? display.width * 0.003 : display.height * 0.003);
             this.color = '#00a3a3';
             this.rect = {
                 x : this.x,
                 y : this.y,
-                width : this.width,
-                height : this.height,
+                width : this.size,
+                height : this.size,
                 speedX : 0,
                 speedY : 0,
-                isColliding: false,
                 size : this.size,
                 color : this.color,
                 name : nameCount++
@@ -69,78 +65,16 @@ window.addEventListener('load', function ()
             }
             this.rect.x += this.rect.speedX;
             this.rect.y += this.rect.speedY;
-
-            if(allowCollisions)
-            {
-                for(let k = 0; k < particles.length - 1; k++)
-                {
-
-                    let obj1 = this.rect;
-                    let obj2 = particles[k].rect;
-
-                    obj1.isColliding = false;
-                    obj2.isColliding = false;
-                    if(obj1.name != obj2.name)
-                    {   
-
-                        let vCollision = {x: obj2.x - obj1.x, y: obj2.y - obj1.y};
-                        let distance = Math.sqrt((obj2.x-obj1.x)*(obj2.x-obj1.x) + (obj2.y-obj1.y)*(obj2.y-obj1.y));
-
-                        if(distance > obj1.size)
-                        {
-                            //no collision was detected
-                            //so do nothing
-                            obj1.isColliding = false;
-                            obj2.isColliding = false;
-
-                        }
-                        else
-                        {
-                            //collision detected!
-                            //do collision stuff
-
-                            let vCollisionNorm = {x: vCollision.x / distance, y: vCollision.y / distance};
-                            let vRelativeVelocity = {x: obj1.speedX - obj2.speedX, y: obj1.speedY - obj2.speedY};
-                            let speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
-                            obj1.isColliding = true;
-                            obj2.isColliding = true;
-                            if (speed < 0)
-                            {
-                                break;
-                            }
-                            obj1.speedX -= (speed * vCollisionNorm.x) * DAMPING;
-                            obj1.speedY -= (speed * vCollisionNorm.y) * DAMPING;
-                            obj2.speedX += (speed * vCollisionNorm.x) * DAMPING;
-                            obj2.speedY += (speed * vCollisionNorm.y) * DAMPING;
-                            if(distance < obj1.size * 0.5)
-                            {
-                                obj1.x <= obj2.x ? function()
-                                {
-                                    obj1.x -= obj1.size;
-                                    obj2.x += obj2.size;
-                                } : function()
-                                {
-                                    obj1.x += obj1.size;
-                                    obj2.x -= obj2.size;
-                                }
-                                obj1.y <= obj2.y ? function()
-                                {
-                                    obj1.y -= obj1.size;
-                                    obj2.y += obj2.size;
-                                } : function()
-                                {
-                                    obj1.y += obj1.size;
-                                    obj2.y += obj2.size;
-                                };
-                            }
-
-                        }
-                    }
-                }
-            }
         }
         draw()
         {
+            ctx.strokeStyle = '#00a3a3';
+            ctx.lineWidth = this.rect.size;
+            ctx.beginPath();
+            ctx.moveTo(this.oldX, this.oldY);
+            ctx.lineTo(this.rect.x, this.rect.y);
+            ctx.stroke();
+            /*
             if(this.rect.isColliding)
             {
                 this.rect.color = '#ffffff';
@@ -151,6 +85,7 @@ window.addEventListener('load', function ()
             }
             ctx.fillStyle = this.rect.color;
             ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
+            */
         }
 
     }
@@ -201,11 +136,11 @@ window.addEventListener('load', function ()
                 particle.attract(mouse.x, mouse.y);
             particle.draw();
         });
-        //window.requestAnimationFrame(animate);
-        setTimeout(() =>
+        window.requestAnimationFrame(animate);
+        /*setTimeout(() =>
         {
             window.requestAnimationFrame(animate);
-        }, 16.66666666667);
+        }, 16.66666666667);*/
     }
    
 });
