@@ -1,3 +1,5 @@
+//based on ideas from https://www.playfuljs.com/particle-effects-are-easy/
+
 window.addEventListener('load', function () 
 {   
     const DAMPING = 0.996;
