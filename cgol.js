@@ -62,7 +62,7 @@ class Cell
     draw()
     {
         // Draw a simple square
-        this.context.fillStyle = this.alive?'#00CCCC':'#303030';
+        this.context.fillStyle = this.alive ? '#00a3a3' : '#303030';
         this.context.fillRect(this.gridX * Cell.width, this.gridY * Cell.height, Cell.width -1, Cell.height -1);
     }
 }
@@ -91,7 +91,7 @@ class GameWorld
             for (let x = 0; x < GameWorld.numColumns; x++)
             {
                 //if (Math.floor(Math.random() > 0.42))
-                if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth * 0.5) + 1) ^ Math.abs(y - Math.floor(windowHeight * 0.5) + 1))* 1.1013)))
+                if (!(seedNum % Math.floor(Math.sqrt(Math.abs(x - Math.floor(windowWidth * 0.5) + 1) ^ Math.abs(y - Math.floor(windowHeight * 0.5) + 1))* (phi*0.5))))
                 {
                     aliveNow = 1;
                 }
