@@ -50,7 +50,6 @@ window.addEventListener('load', function ()
 
         update()
         {
-
             this.rect.speedX = (this.rect.x - this.oldX);
             this.rect.speedY = (this.rect.y - this.oldY);
             this.oldX = this.rect.x;
@@ -68,9 +67,10 @@ window.addEventListener('load', function ()
             this.rect.x += this.rect.speedX * DAMPING;
             this.rect.y += this.rect.speedY * DAMPING;
         }
+
         draw()
         {
-            ctx.strokeStyle = '#00a3a3';
+            ctx.strokeStyle = this.color;
             ctx.lineWidth = this.rect.size;
             ctx.beginPath();
             ctx.moveTo(this.oldX, this.oldY);
@@ -89,9 +89,7 @@ window.addEventListener('load', function ()
             ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
             */
         }
-
     }
-
 
     for (var i = 0; i < numParticles; i++) 
     {
@@ -144,5 +142,4 @@ window.addEventListener('load', function ()
             window.requestAnimationFrame(animate);
         }, 16.66666666667);*/
     }
-   
 });
