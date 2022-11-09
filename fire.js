@@ -187,8 +187,8 @@ class FirePlace extends HTMLElement
   {
     super();
 
-    // Create a Canvas to draw the flames.
-    this.canvas = document.createElement('canvas');
+    // Get canvas to draw on.
+    this.canvas = document.getElementById('canvas1');
 
     // Set size.
     this.canvas.width = canvasWidth;
@@ -202,10 +202,6 @@ class FirePlace extends HTMLElement
     this.canvas.style.imageRendering = 'pixelated';
 
     this.animation = new FirePlaceAnimation(window, this.canvas);
-    
-    //not quite sure what this next bit does, but it is absolutely essential.
-    const shadowRoot = this.attachShadow({mode: 'open'});
-    shadowRoot.appendChild(this.canvas);
   }
 
   connectedCallback() 
