@@ -7,8 +7,8 @@ window.addEventListener('load', function ()
     const ctx = display.getContext('2d');
     const width = display.width = window.innerWidth;
     const height = display.height = window.innerHeight;
-    const numParticles = Math.floor(display.width < display.height ? display.height * 1.3 : display.width * 1.3);
-
+    const numParticles = Math.floor(display.width < display.height ? display.height * 1.4 : display.width * 1.4);
+    const FPS = 1000 / 60;
     let clicked = false;
     let touch = false;
     let particles = [];
@@ -23,7 +23,7 @@ window.addEventListener('load', function ()
 
             this.x = this.oldX = x;
             this.y = this.oldY = y;
-            this.size = Math.floor(display.width < display.height ? display.width * 0.0032 : display.height * 0.0032);
+            this.size = Math.floor(display.width > display.height ? display.width * 0.0032 : display.height * 0.0032);
             this.color = '#00a3a3';
             this.rect = {
                 x : this.x,
@@ -77,14 +77,6 @@ window.addEventListener('load', function ()
             ctx.lineTo(this.rect.x, this.rect.y);
             ctx.stroke();
             /*
-            if(this.rect.isColliding)
-            {
-                this.rect.color = '#ffffff';
-            }
-            else
-            {
-                this.rect.color = '#00a3a3';
-            }
             ctx.fillStyle = this.rect.color;
             ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
             */
@@ -136,10 +128,10 @@ window.addEventListener('load', function ()
             particle.attract(mouse.x, mouse.y);
             particle.draw();
         });
-        window.requestAnimationFrame(animate);
-        /*setTimeout(() =>
+        //window.requestAnimationFrame(animate);
+        setTimeout(() =>
         {
             window.requestAnimationFrame(animate);
-        }, 16.66666666667);*/
+        }, FPS);
     }
 });
