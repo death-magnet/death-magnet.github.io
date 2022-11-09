@@ -27,6 +27,7 @@ window.addEventListener('load', function () {
     let branches = Math.floor(randomNumber(1, 4));
     //controls
     const reloadButton = document.getElementById('reloadButton');
+    const toggleButton = document.getElementById('toggleButton');
     const slider_spread = document.getElementById('spread');
     const label_spread = document.querySelector('[for="spread"]');
     const slider_sides = document.getElementById('sides');
@@ -143,6 +144,18 @@ window.addEventListener('load', function () {
         randomizeFractal();
         drawFractal();
         updateSliders();
+    });
+    toggleButton.addEventListener('click', function ()
+    { 
+        var x = document.getElementById("sliders");
+        if (x.style.display === "none") 
+        {
+            x.style.display = "block";
+        } 
+        else 
+        {
+            x.style.display = "none";
+        }
     });
 
     drawFractal();

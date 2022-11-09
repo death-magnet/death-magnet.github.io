@@ -1,27 +1,34 @@
 *{
 	margin: 0;
 	padding: 0;
+	background: black;
 }
 
 #canvas1 {
 	position: absolute;
 	background: black;
+	width: 100vw;
+	height: 100vh;
 }
 
 .controls {
 	position: absolute;
-	z-index: 100;
-	width: 10%;
+	width: 1%;
+	height: 1%;
 }
 
-img {
-	display:none;
+#sliders{
+
+	position: absolute;
+	width: 1vw;
+	height: 1vw;
 }
+
 
 button {
-	padding: 10px;
-	font-size: 30px;
-	margin: 20px;
+	padding: 1vw;
+	font-size: 3vw;
+	margin: 1vw;
 	color: black;
 	background: grey;
 	transition: 0.2s;
