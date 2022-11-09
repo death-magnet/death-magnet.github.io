@@ -7,8 +7,7 @@ window.addEventListener('load', function ()
     const ctx = display.getContext('2d');
     const width = display.width = window.innerWidth;
     const height = display.height = window.innerHeight;
-    const numParticles = Math.floor(display.width < display.height ? display.height * 1.4 : display.width * 1.4);
-    const FPS = 1000 / 60;
+    const numParticles = Math.floor(display.width < display.height ? display.height * 1.6 : display.width * 1.6);
     let clicked = false;
     let touch = false;
     let particles = [];
@@ -128,10 +127,7 @@ window.addEventListener('load', function ()
             particle.attract(mouse.x, mouse.y);
             particle.draw();
         });
-        //window.requestAnimationFrame(animate);
-        setTimeout(() =>
-        {
-            window.requestAnimationFrame(animate);
-        }, FPS);
+        window.requestAnimationFrame(animate);
+        
     }
 });
