@@ -168,7 +168,7 @@ window.addEventListener('load', function ()
                 obj2 = gameObjects[j];
 
                 // Compare object1 with object2
-                if (circleIntersect(obj1.x, obj1.y, obj1.radius, obj2.x, obj2.y, obj2.radius))
+                if (circleIntersect(obj1.x, obj1.y, obj1.radius, obj2.x, obj2.y, obj2.radius) && obj1 != obj2)
                 {
                     obj1.isColliding = true;
                     obj2.isColliding = true;
